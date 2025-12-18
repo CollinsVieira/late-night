@@ -18,23 +18,19 @@ export function Pagination({
     let start = Math.max(2, currentPage - 1);
     let end = Math.min(totalPages - 1, currentPage + 1);
 
-    if (currentPage <= 3) {
-      end = Math.min(4, totalPages - 1);
-    } else if (currentPage >= totalPages - 2) {
-      start = Math.max(2, totalPages - 3);
-    }
+    currentPage <= 3
+      ? (end = Math.min(4, totalPages - 1))
+      : currentPage >= totalPages - 2
+      ? (start = Math.max(2, totalPages - 3))
+      : null;
 
-    if (start > 2) {
-      pages.push("...");
-    }
+    start > 2 ? pages.push("...") : null;
 
     for (let i = start; i <= end; i++) {
       pages.push(i);
     }
 
-    if (end < totalPages - 1) {
-      pages.push("...");
-    }
+    end < totalPages - 1 ? pages.push("...") : null;
 
     pages.push(totalPages);
     return pages;
