@@ -1,34 +1,25 @@
 import { Header } from "./components/Header.tsx";
 import { Footer } from "./components/Footer.tsx";
-import { Pagination } from "./components/Pagination.tsx";
-import { SearchForm } from "./components/SearchForm.tsx";
-import { Hero } from "./components/Hero.tsx";
-import { CardList } from "./components/CardList.tsx";
-import { useFilters } from "./hooks/useFilters.tsx";
+import { Search } from "./pages/search.tsx";
+import { Home } from "./pages/home.tsx";
+import { useRouter } from "./hooks/useRouter";
 
 function App() {
-  const {
-    loading,
-    data,
-    currentPage,
-    totalPages,
-    handlePageChange,
-    handleSearch,
-    handleTextFilter,
-  } = useFilters();
+  const { currentPath } = useRouter();
+
+  let page = null;
+
+  if (currentPath === "/") {
+    page = <Home />;
+  } else if (currentPath === "/search") {
+    page = <Search />;
+  }
 
   return (
     <>
       <section className="relative overflow-hidden bg-black py-24 px-6 min-h-dvh flex flex-col justify-center items-center">
         <Header />
-        <Hero />
-        <SearchForm onSearch={handleSearch} onTextFilter={handleTextFilter} />
-        <CardList data={data} loading={loading} />
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+        {page}
         <Footer />
       </section>
     </>

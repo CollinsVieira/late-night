@@ -3,9 +3,11 @@ import { useId } from "react";
 export function SearchForm({
   onSearch,
   onTextFilter,
+  textToFilter,
 }: {
   onSearch: (filters: any) => any;
   onTextFilter: (text: any) => any;
+  textToFilter: string;
 }) {
   const idsearch = useId();
   const idEspecie = useId();
@@ -62,6 +64,7 @@ export function SearchForm({
                 type="text"
                 className="block w-full rounded-2xl border border-white/10 bg-white/5 py-4 pl-12 pr-12 text-white placeholder-gray-500 focus:border-[#D4AF37]/50 focus:bg-white/10 focus:ring-1 focus:ring-[#D4AF37]/50 focus:outline-none transition-all duration-300 sm:text-sm md:text-base shadow-lg shadow-black/50"
                 placeholder="Buscar"
+                defaultValue={textToFilter}
                 onChange={handleTextChange}
               />
               <button
@@ -90,7 +93,7 @@ export function SearchForm({
               {
                 name: "Especie",
                 label: "Especie",
-                options: ["Human", "Alien", "Robot"],
+                options: ["Human", "Alien", "Robot", "Humanoid"],
                 id: idEspecie,
               },
               {

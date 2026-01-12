@@ -51,23 +51,36 @@ export function Pagination({
   const handlePrevClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     if (!isFirstPage) {
+      console.log(currentPage - 1);
       onPageChange(currentPage - 1);
     }
   };
   const handleNextclick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     if (!isLastPage) {
+      console.log(currentPage + 1);
       onPageChange(currentPage + 1);
     }
   };
-  const handlePageClick = (page: number) => {
+  const handlePageClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    page: number
+  ) => {
+    event.preventDefault();
+    console.log(page);
     onPageChange(page);
+  };
+
+  const buildPageUrl = (page: number) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("page", page.toString());
+    return `${url.pathname}?${url.searchParams.toString()}`;
   };
 
   return (
     <nav className="flex items-center justify-center gap-6 mt-12 pb-12 w-full">
       <a
-        href="#"
+        href={buildPageUrl(currentPage - 1)}
         className="group flex items-center justify-center w-12 h-12 rounded-full border border-white/10 bg-white/5 text-gray-400 transition-all duration-300 hover:bg-[#D4AF37] hover:text-black hover:border-transparent hover:scale-105 hover:shadow-[0_0_15px_rgba(212,175,55,0.4)]"
         style={stylePrevButton}
         onClick={handlePrevClick}
@@ -98,10 +111,10 @@ export function Pagination({
             </span>
           ) : (
             <a
-              onClick={() => handlePageClick(page as number)}
+              onClick={(e) => handlePageClick(e, page as number)}
               key={page}
-              data-page={currentPage}
-              href="#"
+              data-page={page}
+              href={buildPageUrl(page as number)}
               className={
                 currentPage === page
                   ? "flex items-center justify-center w-10 h-10 rounded-full bg-[#D4AF37] text-black font-bold shadow-[0_0_15px_rgba(212,175,55,0.4)] transition-transform duration-300 hover:scale-105"
@@ -115,7 +128,7 @@ export function Pagination({
       </div>
 
       <a
-        href="#"
+        href={buildPageUrl(currentPage + 1)}
         className="group flex items-center justify-center w-12 h-12 rounded-full border border-white/10 bg-white/5 text-gray-400 transition-all duration-300 hover:bg-[#D4AF37] hover:text-black hover:border-transparent hover:scale-105 hover:shadow-[0_0_15px_rgba(212,175,55,0.4)]"
         style={styleNextButton}
         onClick={handleNextclick}
